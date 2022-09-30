@@ -1,0 +1,23 @@
+#include <iostream>
+#include "TextViewer.h"
+using namespace std;
+
+int main() {
+	TextViewer ecran(cout);
+	Systeme s(Environnement(new Air),&ecran);
+	s.ajout_grain(new GrainLJ_1());
+	s.ajout_grain(new GrainLJ_1(Vecteur3D(1.0)));
+	s.ajout_grain(new GrainLJ_1(Vecteur3D(0.5,sqrt(3.0)/2.0)));
+	s.ajout_grain(new GrainLJ_2(Vecteur3D(0.5,sqrt(3.0)/6.0,sqrt(6.0)/3.0)));
+	s.ajout_obstacle(new Plan(Vecteur3D(0.0,0.0,-0.9),Vecteur3D(0.0,0.0,0.1)));
+	double dt(0.001), t(0.0);
+	while (t <= 0.101) {
+		cout << "======================  t = " << t << "  ======================" << endl << endl;
+		s.dessine();
+		s.evolue(dt);
+        if (s.get_g_size() == 0) break;
+		t += dt;
+	}
+	s.vide();
+	return 0;
+}
